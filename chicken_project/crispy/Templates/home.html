@@ -1,0 +1,271 @@
+{% extends 'base.html' %} {% block content %} <style>
+  body {
+    overflow-x: hidden;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .hero-title {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 600;
+  }
+
+  .food-img {
+    border-radius: 50%;
+    border: 5px solid orange;
+    height: 320px;
+    object-fit: cover;
+  }
+
+  .menu-btn {
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: 2px solid orange;
+    background: white;
+    font-weight: 600;
+  }
+
+  .menu-btn.active {
+    background: red;
+    color: white;
+    border-color: red;
+  }
+
+  .add-btn {
+    border-radius: 10px;
+    padding: 8px 15px;
+    border: none;
+    background-color: black;
+    color: white;
+  }
+
+  .read-btn {
+    padding: 12px 25px;
+    border-radius: 12px;
+    background: black;
+    color: white;
+    border: none;
+  }
+</style> <!-- TOP NAVBAR -->
+<div class="collapse" id="navbarToggleExternalContent" data-bs-theme="dark">
+  <div class="bg-dark p-4">
+    <h5 class="text-white">Collapsed content</h5> <span class="text-secondary">Toggleable via the navbar brand.</span>
+  </div>
+</div>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid"> <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarToggleExternalContent"> <span class="navbar-toggler-icon"></span> </button> </div>
+</nav> <!-- MAIN NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+  <div class="container"> <a class="navbar-brand" href="#"> <img
+        src="https://demos.shopifyteam.com/chik/wp-content/uploads/sites/123/2020/03/chik.png" alt=""> </a> <button
+      class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"> <span
+        class="navbar-toggler-icon"></span> </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item"> <a class="nav-link active text-warning fw-bold" href="#">Home</a> </li>
+        <li class="nav-item dropdown ms-lg-4"> <a class="nav-link dropdown-toggle" href="#" role="button"
+            data-bs-toggle="dropdown"> Crispy Snacks </a>
+          <ul class="dropdown-menu">
+            <li> <a class="dropdown-item" href="{% url 'profile' %}"> Snacks items </a> </li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex"> <input class="form-control me-2" type="search" placeholder="Search"> <button
+          class="btn btn-outline-success">Search</button> </form>
+    </div>
+  </div>
+</nav> <!-- CAROUSEL -->
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active"> <img
+        src="https://chik-demo.myshopify.com/cdn/shop/files/slider3_2000x.jpg?v=1613508599" class="d-block w-100"
+        style="height: 600px; object-fit: cover;"> </div>
+    <div class="carousel-item"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/slider2_2000x.jpg?v=1613508600"
+        class="d-block w-100" style="height: 600px; object-fit: cover;"> </div>
+    <div class="carousel-item"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/slider1_2000x.jpg?v=1613508600"
+        class="d-block w-100" style="height: 600px; object-fit: cover;"> </div>
+  </div> <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+    data-bs-slide="prev"> <span class="carousel-control-prev-icon"></span> </button> <button
+    class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next"> <span
+      class="carousel-control-next-icon"></span> </button>
+</div> <!-- TITLE -->
+<div class="container text-center mt-5">
+  <h1 class="hero-title">The Sound of Taste</h1> <img
+    src="https://chik-demo.myshopify.com/cdn/shop/files/chicken--1_89x43.png?v=1613162658" class="mt-3">
+</div> <!-- ROUND IMAGES -->
+<div class="container mt-5">
+  <div class="row text-center">
+    <div class="col-lg-4 mb-5"> <img
+        src="https://chik-demo.myshopify.com/cdn/shop/files/crispy-chicken_768X.jpg?v=1613508601"
+        class="img-fluid food-img">
+      <h3 class="mt-4 text-danger hero-title"> Chicken Lollipop </h3> <button class="read-btn mt-3"> Read More </button>
+    </div>
+    <div class="col-lg-4 mb-5"> <img
+        src="https://chik-demo.myshopify.com/cdn/shop/files/grill-chicken_768X.jpg?v=1613508601"
+        class="img-fluid food-img">
+      <h3 class="mt-4 text-danger hero-title"> Chicken Tandoori </h3> <button class="read-btn mt-3"> Read More </button>
+    </div>
+    <div class="col-lg-4 mb-5"> <img
+        src="https://chik-demo.myshopify.com/cdn/shop/files/thandoori-chicken_768X.jpg?v=1613508601"
+        class="img-fluid food-img">
+      <h3 class="mt-4 text-danger hero-title"> Grill Tandoori </h3> <button class="read-btn mt-3"> Read More </button>
+    </div>
+  </div>
+</div> <!-- BANNERS -->
+<div class="container-fluid mt-5">
+  <div class="row g-3">
+    <div class="col-lg-2"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/grid_banner2_380X.jpg?v=1613508601"
+        class="img-fluid w-100"> </div>
+    <div class="col-lg-8"> <img
+        src="https://chik-demo.myshopify.com/cdn/shop/files/carosel-slider2_1175X.jpg?v=1613508602"
+        class="img-fluid w-100"> </div>
+    <div class="col-lg-2"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/grid_banner1_380X.jpg?v=1613508601"
+        class="img-fluid w-100"> </div>
+  </div>
+</div> <!-- SPECIAL MENU -->
+<div class="container text-center mt-5">
+  <h1 class="hero-title">Our Special Menu</h1> <img
+    src="https://chik-demo.myshopify.com/cdn/shop/files/chicken_itle_55x17.png?v=1613505254" class="mt-3">
+  <div class="mt-5 d-flex flex-wrap justify-content-center gap-3"> <button class="menu-btn active"> Chicken Meal
+    </button> <button class="menu-btn"> Crunchy </button> <button class="menu-btn"> Grilled Chicken </button> <button
+      class="menu-btn"> Popcorn </button> </div>
+</div> <!-- CARDS -->
+<div class="container mt-5">
+  <div class="row"> <!-- LEFT -->
+    <div class="col-lg-6"> <!-- CARD -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4"> <img
+              src="https://chik-demo.myshopify.com/cdn/shop/products/product36_ba2e0cdc-76c6-4222-af53-1f8f676ba61a.jpg?v=1542609229"
+              class="img-fluid rounded-start p-2"> </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5>Half Tandoori Chicken</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>$328</h4> <button class="add-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- CARD -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4"> <img
+              src="https://chik-demo.myshopify.com/cdn/shop/products/product28_medium.jpg?v=1542609529"
+              class="img-fluid rounded-start p-2"> </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5>Crispy Chicken</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>$219</h4> <button class="add-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- CARD -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4"> <img src="https://chik-demo.myshopify.com/cdn/shop/products/product7.jpg?v=1542603409"
+              class="img-fluid rounded-start p-2"> </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5>Full Tandoori</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>$529</h4> <button class="add-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- RIGHT -->
+    <div class="col-lg-6"> <!-- CARD -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4"> <img src="https://chik-demo.myshopify.com/cdn/shop/products/product15.jpg?v=1542606802"
+              class="img-fluid rounded-start p-2"> </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5>Juicy Grilled Chicken</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>$730</h4> <button class="add-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- CARD -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4"> <img src="https://chik-demo.myshopify.com/cdn/shop/products/product21.jpg?v=1542608037"
+              class="img-fluid rounded-start p-2"> </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5>Fried Popcorn</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>$281</h4> <button class="add-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- CARD -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4"> <img
+              src="https://chik-demo.myshopify.com/cdn/shop/products/product38_4054a00d-b563-4f24-98b0-e2b3b7b869e8.jpg?v=1542605999"
+              class="img-fluid rounded-start p-2"> </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5>Fried Supreme Meal</h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4>$182</h4> <button class="add-btn"> Add to cart </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- RED SECTION -->
+<div class="container-fluid mt-5">
+  <div class="row g-0">
+    <div class="col-lg-6"> <img
+        src="https://chik-demo.myshopify.com/cdn/shop/files/chicken--17_8c7663d3-186e-43b7-8d74-ff6b7d17e715.jpg?v=1613508602"
+        class="img-fluid w-100"> </div>
+    <div class="col-lg-6 bg-danger text-white d-flex flex-column justify-content-center p-5">
+      <h1 class="hero-title"> Feel the Sound of Taste </h1>
+      <p class="mt-4"> Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus tellus eget
+        condimentum. </p>
+      <div class="row text-center mt-4">
+        <div class="col-3"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/img5_100x100.png?v=1613505344"
+            width="60">
+          <h3 class="mt-3">170</h3>
+        </div>
+        <div class="col-3"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/chi-2-png_100x100.png?v=1613504101"
+            width="60">
+          <h3 class="mt-3">524</h3>
+        </div>
+        <div class="col-3"> <img
+            src="https://chik-demo.myshopify.com/cdn/shop/files/img5_100x100--1_100x100.png?v=1613506578" width="60">
+          <h3 class="mt-3">175</h3>
+        </div>
+        <div class="col-3"> <img src="https://chik-demo.myshopify.com/cdn/shop/files/chi-4-png_100x100.png?v=1613504102"
+            width="60">
+          <h3 class="mt-3">300</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- TOP SELLING -->
+<div class="container text-center my-5">
+  <h1 class="hero-title"> Top Selling </h1> <img
+    src="https://chik-demo.myshopify.com/cdn/shop/files/chicken_itle_55x17.png?v=1613505254" class="mt-3">
+</div> {% endblock %}
