@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.cart-section{
+    margin-top:30px;
+    padding-bottom:60px;
+    background:#fff8f0;
+    min-height:100vh;
+}
+
+/* HEADING */
+
+.cart-heading{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.cart-heading h1{
+    font-size:55px;
+    font-weight:900;
+    color:#111;
+    letter-spacing:2px;
+    text-shadow:3px 3px 10px rgba(0,0,0,0.15);
+}
+
+/* CART CARD */
+
+.cart-card{
+    background:#fff;
+    border-radius:25px;
+    overflow:hidden;
+    padding:20px;
+    margin-bottom:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    transition:0.4s;
+}
+
+.cart-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 40px rgba(255,123,0,0.35);
+}
+
+/* IMAGE */
+
+.cart-img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:20px;
+}
+
+/* TEXT */
+
+.cart-title{
+    font-size:30px;
+    font-weight:900;
+    color:#111;
+}
+
+.cart-price{
+    font-size:24px;
+    font-weight:800;
+    color:#ff3c00;
+}
+
+.cart-text{
+    font-size:18px;
+    color:#555;
+    margin-bottom:10px;
+}
+
+/* REMOVE BUTTON */
+
+.remove-btn{
+    padding:12px 25px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(45deg,#111,#333);
+    color:white;
+    font-weight:700;
+    transition:0.4s;
+}
+
+.remove-btn:hover{
+    background:linear-gradient(45deg,#ff0000,#ff7b00);
+    transform:scale(1.05);
+    box-shadow:0 8px 20px rgba(255,0,0,0.4);
+}
+
+/* TOTAL */
+
+.total-box{
+    background:#111;
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    margin-top:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+.total-box h2{
+    font-size:35px;
+    font-weight:900;
+    color:#ffcc00;
+}
+
+</style>
+
+
+<section class="cart-section">
+
+<div class="container">
+
+    <!-- HEADING -->
+
+    <div class="cart-heading">
+
+        <h1>
+            🛒 My Cart
+        </h1>
+
+    </div>
+
+
+    {% for item in cart_items %}
+
+    <div class="cart-card">
+
+        <div class="row align-items-center">
+
+            <!-- IMAGE -->
+
+            <div class="col-lg-3">
+
+                <img src="{{ item.product.image.url }}"
+                     class="cart-img">
+
+            </div>
+
+            <!-- DETAILS -->
+
+            <div class="col-lg-6">
+
+                <h3 class="cart-title">
+                    {{ item.product.name }}
+                </h3>
+
+                <p class="cart-price">
+                    ₹ {{ item.product.price }}
+                </p>
+
+                <p class="cart-text">
+                    Quantity : {{ item.quantity }}
+                </p>
+
+                <p class="cart-text">
+                    Subtotal : ₹ {{ item.subtotal }}
+                </p>
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <div class="col-lg-3 text-center">
+
+                <a href="{% url 'remove_cart' item.product.id %}">
+
+                    <button class="remove-btn">
+
+                        <i class="fa-solid fa-trash me-2"></i>
+                        Remove
+
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+    <!-- TOTAL -->
+
+    <div class="total-box">
+
+        <h2>
+            Total : ₹ {{ total }}
+        </h2>
+
+    </div>
+
+</div>
+
+</section>
+
+{% endblock %}

@@ -8,3 +8,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Register(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=150)
+
+    def __str__(self):
+       return self.username
