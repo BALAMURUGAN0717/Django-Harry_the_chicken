@@ -12,56 +12,198 @@
 <body>
 <style>
 
-  /* HOVER EFFECT */
-
-.nav-custom:hover{
-    color:#ff8800 !important;
+/* ---------------- TOP NAVBAR ---------------- */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
 }
 
-/* CART ALIGN FIX */
-
-.nav-link{
-    display:flex !important;
-    align-items:center;
+/* ---------------- MAIN NAVBAR ---------------- */
+.main-navbar {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    width: 100%;
+    z-index: 1020;
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    transition: all 0.3s ease;
 }
 
-.top-navbar{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    z-index:9999;
+body {
+    padding-top: 125px;
 }
 
-.main-navbar{
-    position:fixed;
-    top:58px;
-    left:0;
-    width:100%;
-    z-index:9998;
+/* LOGO */
+.navbar-brand img {
+    height: 48px;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
 }
 
-body{
-    padding-top:140px;
+.navbar-brand:hover img {
+    transform: scale(1.05);
 }
 
-/* NAVBAR LINK STYLE */
-
-.nav-custom{
-    color:black !important;
-    font-weight:700;
-    font-size:17px;
-    letter-spacing:1px;
-    margin:0 10px;
-    transition:0.3s;
-    font-family:'Poppins', sans-serif;
-    text-decoration:none;
+/* NAV LINKS */
+.nav-custom {
+    color: #111111 !important;
+    font-weight: 700;
+    font-size: 15.5px;
+    letter-spacing: 0.3px;
+    padding: 8px 14px !important;
+    transition: all 0.25s ease;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    display: inline-flex !important;
+    align-items: center;
+    border-radius: 8px;
 }
 
-/* HOVER EFFECT */
+.nav-custom:hover,
+.nav-custom:focus {
+    color: #ff8800 !important;
+    background: rgba(255, 136, 0, 0.06);
+}
 
-.nav-custom:hover{
-    color:#ff8800 !important;
+.nav-custom.active {
+    color: #ff5500 !important;
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+    border: none !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+    padding: 8px 0;
+    margin-top: 8px;
+}
+
+.dropdown-item {
+    font-weight: 600;
+    padding: 9px 18px;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background: #fff3e6 !important;
+    color: #ff5500 !important;
+    padding-left: 22px;
+}
+
+/* USER / LOGOUT / CART HIGHLIGHTS */
+.nav-user-badge {
+    color: #d97706 !important;
+    background: rgba(245, 158, 11, 0.12) !important;
+    padding: 6px 14px !important;
+    border-radius: 20px;
+    font-size: 14.5px;
+}
+
+.nav-logout-btn {
+    color: #dc2626 !important;
+    padding: 6px 12px !important;
+    border-radius: 8px;
+}
+
+.nav-logout-btn:hover {
+    color: #ffffff !important;
+    background: #dc2626 !important;
+}
+
+/* SEARCH FORM & INPUT GROUP */
+.navbar-search-form {
+    min-width: 260px;
+    max-width: 320px;
+    width: 280px;
+    margin: 0;
+}
+
+.search-input-group {
+    border-radius: 30px;
+    overflow: hidden;
+    border: 2px solid #ff8800;
+    background: #ffffff;
+    box-shadow: 0 3px 10px rgba(255, 136, 0, 0.12);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.search-input-group:focus-within {
+    border-color: #ff4500;
+    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.28);
+}
+
+.nav-search-input {
+    border: none !important;
+    height: 42px !important;
+    padding: 8px 16px !important;
+    font-size: 14px;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: #222222;
+}
+
+.nav-search-input::placeholder {
+    color: #888888;
+    font-size: 13.5px;
+}
+
+.nav-search-btn {
+    border: none !important;
+    background: linear-gradient(135deg, #ff8800, #ff4500) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 18px !important;
+    height: 42px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease !important;
+    border-radius: 0 28px 28px 0 !important;
+}
+
+.nav-search-btn:hover,
+.nav-search-btn:focus {
+    background: linear-gradient(135deg, #ff4500, #d00000) !important;
+    color: #ffffff !important;
+}
+
+/* RESPONSIVE NAVBAR */
+@media (max-width: 991.98px) {
+    body {
+        padding-top: 120px;
+    }
+
+    .navbar-collapse {
+        background: #ffffff;
+        padding: 16px 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        margin-top: 10px;
+    }
+
+    .nav-custom {
+        padding: 10px 14px !important;
+        margin: 2px 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .navbar-search-form {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 12px;
+    }
 }
 
 </style>
@@ -111,64 +253,55 @@ body{
 
 
 <!-- MAIN NAVBAR -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm main-navbar" style="margin-top: -10px;">
+<nav class="navbar navbar-expand-lg main-navbar">
 
-  <div class="container">
+  <div class="container d-flex align-items-center justify-content-between">
 
     <!-- LOGO -->
-    <a class="navbar-brand" href="{% url 'home' %}">
+    <a class="navbar-brand d-flex align-items-center me-2 me-xl-4 py-0" href="{% url 'home' %}">
       <img src="https://demos.shopifyteam.com/chik/wp-content/uploads/sites/123/2020/03/chik.png" alt="Harry the Chicken Logo">
     </a>
 
     <!-- MOBILE BUTTON -->
-    <button class="navbar-toggler"
+    <button class="navbar-toggler border-0 shadow-none p-1"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent">
-
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-
     </button>
 
     <!-- NAVBAR CONTENT -->
-    <div class="collapse navbar-collapse"
-         id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <!-- NAV LINKS -->
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
 
         <!-- HOME -->
         <li class="nav-item">
-
-          <a class="nav-link nav-custom active"
-             href="{% url 'home' %}">
-
-             Home
-
+          <a class="nav-link nav-custom" href="{% url 'home' %}">
+            Home
           </a>
-
         </li>
 
         <!-- CRISPY SNACKS -->
-        <li class="nav-item dropdown ms-lg-4">
-
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle nav-custom"
              href="#"
              role="button"
-             data-bs-toggle="dropdown">
-
+             data-bs-toggle="dropdown"
+             aria-expanded="false">
              Crispy Snacks
-
           </a>
-
-          <ul class="dropdown-menu shadow border-0">
-
+          <ul class="dropdown-menu">
             <li>
               <a class="dropdown-item" href="{% url 'profile' %}">
                 All Snacks Items
               </a>
             </li>
-            <li><hr class="dropdown-divider"></li>
+            <li><hr class="dropdown-divider my-1"></li>
             <li>
               <a class="dropdown-item" href="{% url 'profile' %}?category=Chicken Meal">
                 Chicken Meal
@@ -189,51 +322,39 @@ body{
                 Popcorn
               </a>
             </li>
-
           </ul>
-
         </li>
 
         {% if current_user %}
         <!-- LOGGED IN USER -->
-        <li class="nav-item ms-lg-4">
-          <span class="nav-link nav-custom text-warning">
-            <i class="fa-solid fa-user me-1"></i> {{ current_user }}
+        <li class="nav-item">
+          <span class="nav-link nav-custom nav-user-badge">
+            <i class="fa-solid fa-user me-1 text-warning"></i> {{ current_user }}
           </span>
         </li>
-        <li class="nav-item ms-lg-2">
-          <a class="nav-link nav-custom text-danger"
-             href="{% url 'logout' %}">
+        <li class="nav-item">
+          <a class="nav-link nav-custom nav-logout-btn" href="{% url 'logout' %}">
              <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
           </a>
         </li>
         {% else %}
         <!-- LOGIN -->
-        <li class="nav-item ms-lg-4">
-
-          <a class="nav-link nav-custom"
-             href="{% url 'login' %}">
-
+        <li class="nav-item">
+          <a class="nav-link nav-custom" href="{% url 'login' %}">
              Login
-
           </a>
-
         </li>
 
         <!-- REGISTER -->
-        <li class="nav-item ms-lg-3">
-
-          <a class="nav-link nav-custom"
-             href="{% url 'register' %}">
-
+        <li class="nav-item">
+          <a class="nav-link nav-custom" href="{% url 'register' %}">
              Register
-
           </a>
-
         </li>
         {% endif %}
 
-        <li class="nav-item ms-lg-3">
+        <!-- CART -->
+        <li class="nav-item">
           <a class="nav-link nav-custom position-relative" href="{% url 'cart' %}">
             <i class="fa-solid fa-cart-shopping me-1"></i>
             Cart
@@ -245,23 +366,24 @@ body{
 
       </ul>
 
-      <!-- SEARCH -->
-      <form class="d-flex"
+      <!-- SEARCH BAR -->
+      <form class="d-flex align-items-center navbar-search-form"
             method="GET"
-            action="{% url 'profile' %}">
-
-        <input class="form-control me-2"
-               type="search"
-               name="q"
-               placeholder="Search">
-
-        <button class="btn btn-outline-success"
-                type="submit">
-
-                Search
-
-        </button>
-
+            action="{% url 'profile' %}"
+            role="search">
+        <div class="input-group search-input-group">
+          <input class="form-control nav-search-input"
+                 type="search"
+                 name="q"
+                 placeholder="Search crispy chicken..."
+                 aria-label="Search"
+                 value="{{ request.GET.q|default:'' }}"
+                 autocomplete="off">
+          <button class="btn nav-search-btn" type="submit" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass me-1"></i>
+            <span>Search</span>
+          </button>
+        </div>
       </form>
 
     </div>
