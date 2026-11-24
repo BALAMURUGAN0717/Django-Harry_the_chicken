@@ -79,12 +79,15 @@ def register(request):
             mgs = "Username already exists"
         else:
             if form.is_valid():
-                user = form.save(commit=False)
-                user.username = username
-                user.email = email
-                user.password = password
-                user.save()
-                return redirect("login")
+                try:
+                    user = form.save(commit=False)
+                    user.username = username
+                    user.email = email
+                    user.password = password
+                    user.save()
+                    return redirect("login")
+                except Exception as e:
+                    mgs = f"Registration error: {e}"
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form, "mgs": mgs})

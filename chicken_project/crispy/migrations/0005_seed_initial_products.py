@@ -243,6 +243,15 @@ def seed_products(apps, schema_editor):
                 category=p["category"],
             )
 
+    Register = apps.get_model('crispy', 'Register')
+    if Register.objects.count() == 0:
+        Register.objects.create(
+            id=1,
+            username="bala",
+            email="bala@gmail.com",
+            password="bala123",
+        )
+
 
 def remove_seeded_products(apps, schema_editor):
     pass

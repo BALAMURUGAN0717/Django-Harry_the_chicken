@@ -116,24 +116,118 @@ WSGI_APPLICATION = 'chicken_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+import tempfile
 
-database_url = os.environ.get('DATABASE_URL')
-if database_url:
+database_url = (
+    os.environ.get('DATABASE_URL')
+    or os.environ.get('POSTGRES_URL')
+    or os.environ.get('POSTGRES_PRISMA_URL')
+    or os.environ.get('POSTGRES_URL_NON_POOLING')
+)
+
+if not database_url and os.environ.get('POSTGRES_HOST'):
+    db_user = os.environ.get('POSTGRES_USER', '')
+    db_pass = os.environ.get('POSTGRES_PASSWORD', '')
+    db_host = os.environ.get('POSTGRES_HOST', '')
+    db_port = os.environ.get('POSTGRES_PORT', '5432')
+    db_name = os.environ.get('POSTGRES_DATABASE', '')
+    database_url = f"postgres://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
+
+is_vercel = 'VERCEL' in os.environ or 'AWS_LAMBDA_FUNCTION_NAME' in os.environ
+
+def _parse_db_url(url, serverless=False):
     try:
         import dj_database_url
-        DATABASES['default'] = dj_database_url.config(
-            default=database_url,
-            conn_max_age=600,
+        return dj_database_url.config(
+            default=url,
+            conn_max_age=0 if serverless else 600,
             conn_health_checks=True,
+            ssl_require=True,
         )
     except ImportError:
         pass
+
+    # Built-in zero-dependency parser using urllib.parse
+    from urllib.parse import urlparse, parse_qs, unquote
+    parsed = urlparse(url)
+    engine = 'django.db.backends.postgresql'
+    if 'mysql' in parsed.scheme:
+        engine = 'django.db.backends.mysql'
+    elif 'sqlite' in parsed.scheme:
+        engine = 'django.db.backends.sqlite3'
+
+    # Check if driver is available in the current environment
+    if engine == 'django.db.backends.postgresql':
+        has_pg = False
+        try:
+            import psycopg  # noqa
+            has_pg = True
+        except ImportError:
+            try:
+                import psycopg2  # noqa
+                has_pg = True
+            except ImportError:
+                has_pg = False
+        if not has_pg:
+            print("Notice: PostgreSQL URL provided but psycopg/psycopg2 not installed locally. Using SQLite.")
+            return {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+
+    query = parse_qs(parsed.query)
+    options = {}
+    if 'sslmode' in query:
+        options['sslmode'] = query['sslmode'][0]
+    elif engine == 'django.db.backends.postgresql':
+        options['sslmode'] = 'require'
+
+    return {
+        'ENGINE': engine,
+        'NAME': unquote(parsed.path.lstrip('/')),
+        'USER': unquote(parsed.username or ''),
+        'PASSWORD': unquote(parsed.password or ''),
+        'HOST': parsed.hostname or '',
+        'PORT': str(parsed.port or 5432) if engine != 'django.db.backends.sqlite3' else '',
+        'CONN_MAX_AGE': 0 if serverless else 600,
+        'OPTIONS': options,
+    }
+
+if database_url:
+    try:
+        DATABASES = {
+            'default': _parse_db_url(database_url, serverless=is_vercel)
+        }
+    except Exception as e:
+        print(f"Warning: Failed to configure database from URL: {e}")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+else:
+    # On Vercel without an external database, the root filesystem (/var/task) is strictly read-only.
+    # We copy db.sqlite3 to the temporary writable directory to prevent immediate
+    # 'OperationalError: attempt to write a readonly database' crashes.
+    sqlite_path = BASE_DIR / 'db.sqlite3'
+    if is_vercel:
+        import shutil
+        tmp_db = Path(tempfile.gettempdir()) / 'db.sqlite3'
+        if not tmp_db.exists() and sqlite_path.exists():
+            try:
+                shutil.copy2(sqlite_path, tmp_db)
+            except Exception as e:
+                print(f"Warning: Could not copy SQLite to temp: {e}")
+        if tmp_db.exists():
+            sqlite_path = tmp_db
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': sqlite_path,
+        }
+    }
 
 
 # Password validation
