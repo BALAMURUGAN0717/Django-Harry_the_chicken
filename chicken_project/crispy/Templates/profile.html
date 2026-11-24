@@ -138,6 +138,9 @@
         <div class="menu-heading">
             <h1>🍗 Crispy Snacks</h1>
             <p>Hot • Crispy • Delicious Taste</p>
+            {% if selected_category %}
+            <span class="badge bg-danger fs-6 px-3 py-2 rounded-pill mt-2">{{ selected_category }}</span>
+            {% endif %}
         </div>
 
         <div class="row g-4">

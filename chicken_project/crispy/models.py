@@ -5,6 +5,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     discription = models.TextField()
     image = models.ImageField(upload_to='product/')
+    category = models.CharField(max_length=50, default='Crunchy')
 
     def __str__(self):
         return self.name

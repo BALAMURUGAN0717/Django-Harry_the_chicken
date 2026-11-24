@@ -164,14 +164,30 @@ body{
           <ul class="dropdown-menu shadow border-0">
 
             <li>
-
-              <a class="dropdown-item"
-                 href="{% url 'profile' %}">
-
-                 Snacks Items
-
+              <a class="dropdown-item" href="{% url 'profile' %}">
+                All Snacks Items
               </a>
-
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'profile' %}?category=Chicken Meal">
+                Chicken Meal
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'profile' %}?category=Crunchy">
+                Crunchy
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'profile' %}?category=Grilled Chicken">
+                Grilled Chicken
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'profile' %}?category=Popcorn">
+                Popcorn
+              </a>
             </li>
 
           </ul>
@@ -203,11 +219,14 @@ body{
         </li>
 
         <li class="nav-item ms-lg-3">
-    <a class="nav-link nav-custom" href="{% url 'cart' %}">
-        <i class="fa-solid fa-cart-shopping me-1"></i>
-        Cart
-    </a>
-</li>
+          <a class="nav-link nav-custom position-relative" href="{% url 'cart' %}">
+            <i class="fa-solid fa-cart-shopping me-1"></i>
+            Cart
+            <span class="badge bg-danger rounded-pill ms-1" id="nav-cart-count">
+              {{ cart_count|default:0 }}
+            </span>
+          </a>
+        </li>
 
       </ul>
 
@@ -377,7 +396,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<!-- Toast Feedback Container -->
+<div id="cart-toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 10555; display: none;">
+  <div class="toast show align-items-center text-white bg-dark border-0 shadow-lg" role="alert" style="border-radius: 14px; border-left: 5px solid #ff7b00 !important;">
+    <div class="d-flex align-items-center p-2">
+      <div class="toast-body d-flex align-items-center py-2">
+        <i class="fa-solid fa-circle-check text-warning fs-4 me-2"></i>
+        <span id="cart-toast-message" class="fw-bold fs-6">Added to cart!</span>
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="document.getElementById('cart-toast-container').style.display='none'"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>
 </html>

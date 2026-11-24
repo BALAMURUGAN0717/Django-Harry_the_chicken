@@ -327,20 +327,29 @@ html{
  <!-- ROUND IMAGES -->
 <div class="container mt-5">
   <div class="row text-center">
-    <div class="col-lg-4 mb-5"> <img
-        src="https://chik-demo.myshopify.com/cdn/shop/files/crispy-chicken_768X.jpg?v=1613508601"
-        class="img-fluid food-img">
-      <h3 class="mt-4 text-danger hero-title"> Chicken Lollipop </h3> <button class="read-btn mt-3"> Read More </button>
+    <div class="col-lg-4 col-md-4 col-12 mb-5">
+      <img src="https://chik-demo.myshopify.com/cdn/shop/files/crispy-chicken_768X.jpg?v=1613508601"
+           class="img-fluid food-img" alt="Chicken Lollipop">
+      <h3 class="mt-4 text-danger hero-title" style="font-size: 32px;"> Chicken Lollipop </h3>
+      <a href="{% url 'product_details' lollipop_id %}" class="text-decoration-none">
+        <button type="button" class="read-btn mt-3"> Read More </button>
+      </a>
     </div>
-    <div class="col-lg-4 mb-5"> <img
-        src="https://chik-demo.myshopify.com/cdn/shop/files/grill-chicken_768X.jpg?v=1613508601"
-        class="img-fluid food-img">
-      <h3 class="mt-4 text-danger hero-title"> Chicken Tandoori </h3> <button class="read-btn mt-3"> Read More </button>
+    <div class="col-lg-4 col-md-4 col-12 mb-5">
+      <img src="https://chik-demo.myshopify.com/cdn/shop/files/grill-chicken_768X.jpg?v=1613508601"
+           class="img-fluid food-img" alt="Chicken Tandoori">
+      <h3 class="mt-4 text-danger hero-title" style="font-size: 32px;"> Chicken Tandoori </h3>
+      <a href="{% url 'product_details' tandoori_id %}" class="text-decoration-none">
+        <button type="button" class="read-btn mt-3"> Read More </button>
+      </a>
     </div>
-    <div class="col-lg-4 mb-5"> <img
-        src="https://chik-demo.myshopify.com/cdn/shop/files/thandoori-chicken_768X.jpg?v=1613508601"
-        class="img-fluid food-img">
-      <h3 class="mt-4 text-danger hero-title"> Grill Tandoori </h3> <button class="read-btn mt-3"> Read More </button>
+    <div class="col-lg-4 col-md-4 col-12 mb-5">
+      <img src="https://chik-demo.myshopify.com/cdn/shop/files/thandoori-chicken_768X.jpg?v=1613508601"
+           class="img-fluid food-img" alt="Grill Tandoori">
+      <h3 class="mt-4 text-danger hero-title" style="font-size: 32px;"> Grill Tandoori </h3>
+      <a href="{% url 'product_details' grill_id %}" class="text-decoration-none">
+        <button type="button" class="read-btn mt-3"> Read More </button>
+      </a>
     </div>
   </div>
 </div>
@@ -357,119 +366,51 @@ html{
   </div>
 </div> 
 <!-- SPECIAL MENU -->
-<div class="container text-center mt-5">
-  <h1 class="hero-title">Our Special Menu</h1> <img
-    src="https://chik-demo.myshopify.com/cdn/shop/files/chicken_itle_55x17.png?v=1613505254" class="mt-3">
-  <div class="mt-5 d-flex flex-wrap justify-content-center gap-3"> <button class="menu-btn active"> Chicken Meal
-    </button> <button class="menu-btn"> Crunchy </button> <button class="menu-btn"> Grilled Chicken </button> <button
-      class="menu-btn"> Popcorn </button> </div>
+<div class="container text-center mt-5" id="special-menu-section">
+  <h1 class="hero-title">Our Special Menu</h1>
+  <img src="https://chik-demo.myshopify.com/cdn/shop/files/chicken_itle_55x17.png?v=1613505254" class="mt-3" alt="title icon">
+  <div class="mt-5 d-flex flex-wrap justify-content-center gap-3">
+    <button type="button" class="menu-btn active" data-category="Chicken Meal" onclick="filterMenu('Chicken Meal', this)"> Chicken Meal </button>
+    <button type="button" class="menu-btn" data-category="Crunchy" onclick="filterMenu('Crunchy', this)"> Crunchy </button>
+    <button type="button" class="menu-btn" data-category="Grilled Chicken" onclick="filterMenu('Grilled Chicken', this)"> Grilled Chicken </button>
+    <button type="button" class="menu-btn" data-category="Popcorn" onclick="filterMenu('Popcorn', this)"> Popcorn </button>
+  </div>
 </div> 
 <!-- CARDS -->
 <div class="container mt-5">
-  <div class="row"> <!-- LEFT -->
-    <div class="col-lg-6"> <!-- CARD -->
-      <div class="card mb-4 shadow-sm">
-        <div class="row g-0">
-          <div class="col-md-4"> <img
-              src="https://chik-demo.myshopify.com/cdn/shop/products/product36_ba2e0cdc-76c6-4222-af53-1f8f676ba61a.jpg?v=1542609229"
-              class="img-fluid rounded-start p-2"> </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5>Half Tandoori Chicken</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <h4>$328</h4> <button class="add-btn"> Add to cart </button>
-              </div>
-            </div>
+  <div class="row" id="menu-cards-row">
+    {% for product in menu_products %}
+    <div class="col-lg-6 col-12 menu-card-wrapper mb-4" data-category="{{ product.category }}">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="row g-0 align-items-center h-100">
+          <div class="col-4 col-sm-4 p-2 text-center">
+            <a href="{% url 'product_details' product.id %}">
+              <img src="{{ product.image.url }}"
+                   class="img-fluid rounded-start p-1"
+                   style="max-height: 140px; width: 100%; object-fit: contain;"
+                   alt="{{ product.name }}">
+            </a>
           </div>
-        </div>
-      </div> 
-      <!-- CARD -->
-      <div class="card mb-4 shadow-sm">
-        <div class="row g-0">
-          <div class="col-md-4"> <img
-              src="https://chik-demo.myshopify.com/cdn/shop/products/product28_medium.jpg?v=1542609529"
-              class="img-fluid rounded-start p-2"> </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5>Crispy Chicken</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          <div class="col-8 col-sm-8">
+            <div class="card-body p-3">
+              <a href="{% url 'product_details' product.id %}" class="text-decoration-none text-dark">
+                <h5 class="fw-bold mb-1">{{ product.name }}</h5>
+              </a>
+              <p class="text-muted small mb-2" style="min-height: 38px; line-height: 1.4;">{{ product.discription }}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <h4>$219</h4> <button class="add-btn"> Add to cart </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- CARD -->
-      <div class="card mb-4 shadow-sm">
-        <div class="row g-0">
-          <div class="col-md-4"> <img src="https://chik-demo.myshopify.com/cdn/shop/products/product7.jpg?v=1542603409"
-              class="img-fluid rounded-start p-2"> </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5>Full Tandoori</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <h4>$529</h4> <button class="add-btn"> Add to cart </button>
+                <h4 class="text-danger fw-bold mb-0">₹{{ product.price }}</h4>
+                <a href="{% url 'add_to_cart' product.id %}" class="text-decoration-none" onclick="addToCartAjax(event, '{{ product.id }}', this)">
+                  <button type="button" class="add-btn">
+                    Add to cart
+                  </button>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-     <!-- RIGHT -->
-    <div class="col-lg-6">
-       <!-- CARD -->
-      <div class="card mb-4 shadow-sm">
-        <div class="row g-0">
-          <div class="col-md-4"> <img src="https://chik-demo.myshopify.com/cdn/shop/products/product15.jpg?v=1542606802"
-              class="img-fluid rounded-start p-2"> </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5>Juicy Grilled Chicken</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <h4>$730</h4> <button class="add-btn"> Add to cart </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> 
-      <!-- CARD -->
-      <div class="card mb-4 shadow-sm">
-        <div class="row g-0">
-          <div class="col-md-4"> <img src="https://chik-demo.myshopify.com/cdn/shop/products/product21.jpg?v=1542608037"
-              class="img-fluid rounded-start p-2"> </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5>Fried Popcorn</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <h4>$281</h4> <button class="add-btn"> Add to cart </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-       <!-- CARD -->
-      <div class="card mb-4 shadow-sm">
-        <div class="row g-0">
-          <div class="col-md-4"> <img
-              src="https://chik-demo.myshopify.com/cdn/shop/products/product38_4054a00d-b563-4f24-98b0-e2b3b7b869e8.jpg?v=1542605999"
-              class="img-fluid rounded-start p-2"> </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5>Fried Supreme Meal</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <h4>$182</h4> <button class="add-btn"> Add to cart </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
  <!-- RED SECTION -->
@@ -509,5 +450,84 @@ html{
     src="https://chik-demo.myshopify.com/cdn/shop/files/chicken_itle_55x17.png?v=1613505254" class="mt-3">
 </div>
 
+
+<script>
+function filterMenu(category, btnElement) {
+  // Update button active state
+  document.querySelectorAll('.menu-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  if (btnElement) {
+    btnElement.classList.add('active');
+  }
+
+  // Filter cards dynamically
+  const items = document.querySelectorAll('.menu-card-wrapper');
+  items.forEach(item => {
+    const itemCat = item.getAttribute('data-category');
+    if (itemCat === category) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+function addToCartAjax(event, productId, linkElement) {
+  if (event) event.preventDefault();
+  
+  const btn = linkElement.querySelector('.add-btn') || linkElement;
+  const originalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding...';
+
+  fetch(`/add-to-cart/${productId}/`, {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Accept': 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Added!';
+    btn.style.background = '#28a745';
+
+    // Update navbar cart count badge immediately
+    const cartCountEl = document.getElementById('nav-cart-count');
+    if (cartCountEl && data.cart_count !== undefined) {
+      cartCountEl.textContent = data.cart_count;
+    }
+
+    // Show toast feedback
+    const toastContainer = document.getElementById('cart-toast-container');
+    const toastMsg = document.getElementById('cart-toast-message');
+    if (toastContainer && toastMsg) {
+      toastMsg.textContent = data.message || 'Item added to cart!';
+      toastContainer.style.display = 'block';
+      setTimeout(() => {
+        toastContainer.style.display = 'none';
+      }, 3000);
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = originalHtml;
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 1200);
+  })
+  .catch(err => {
+    console.error('Add to cart error:', err);
+    window.location.href = `/add-to-cart/${productId}/`;
+  });
+}
+
+// Initialize default active category on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const defaultBtn = document.querySelector('.menu-btn.active') || document.querySelector('.menu-btn');
+  if (defaultBtn) {
+    filterMenu(defaultBtn.getAttribute('data-category'), defaultBtn);
+  }
+});
+</script>
 
 {% endblock %}
