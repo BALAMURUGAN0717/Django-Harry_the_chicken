@@ -124,26 +124,34 @@
         <input type="text" 
                name="username" 
                class="inputstyle"
-               placeholder="Enter username">
+               placeholder="Enter username"
+               required>
 
         <!-- Email -->
         <label class="registerf">Email</label>
         <input type="email" 
                name="email" 
                class="styleemail"
-               placeholder="Enter email">
+               placeholder="Enter email"
+               required>
 
         <!-- Password -->
         <label class="registerf">Password</label>
         <input type="password" 
                name="password" 
                class="inputstyle"
-               placeholder="Enter password">
+               placeholder="Enter password"
+               required>
 
         <!-- Button -->
-        <button class="registerbtn">
+        <button type="submit" class="registerbtn">
             Register
         </button>
+
+        <p class="mt-4 mb-0 text-secondary" style="font-size: 15px;">
+            Already have an account? 
+            <a href="{% url 'login' %}" class="text-warning fw-bold text-decoration-none ms-1">Login here</a>
+        </p>
 
     </form>
 

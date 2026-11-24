@@ -126,6 +126,8 @@
     </div>
 
 
+    {% if cart_items %}
+
     {% for item in cart_items %}
 
     <div class="cart-card">
@@ -137,7 +139,8 @@
             <div class="col-lg-3">
 
                 <img src="{{ item.product.image.url }}"
-                     class="cart-img">
+                     class="cart-img"
+                     alt="{{ item.product.name }}">
 
             </div>
 
@@ -172,7 +175,7 @@
 
                 <a href="{% url 'remove_cart' item.product.id %}">
 
-                    <button class="remove-btn">
+                    <button class="remove-btn" type="button">
 
                         <i class="fa-solid fa-trash me-2"></i>
                         Remove
@@ -199,6 +202,19 @@
         </h2>
 
     </div>
+
+    {% else %}
+
+    <div class="text-center py-5">
+        <i class="fa-solid fa-basket-shopping text-warning display-2 mb-3"></i>
+        <h2 class="fw-bold text-dark mt-2">Your cart is empty</h2>
+        <p class="text-secondary fs-5 mt-2">Explore our delicious crispy chicken menu and add items to your cart.</p>
+        <a href="{% url 'profile' %}" class="btn btn-warning fw-bold fs-5 px-4 py-2 mt-3" style="border-radius: 30px;">
+            Explore Menu 🍗
+        </a>
+    </div>
+
+    {% endif %}
 
 </div>
 

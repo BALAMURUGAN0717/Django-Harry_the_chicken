@@ -119,18 +119,25 @@
         <label class="uselog">Username</label>
         <input type="text" 
                name="username" 
-               placeholder="Enter username">
+               placeholder="Enter username"
+               required>
 
         <!-- Password -->
         <label class="uselog">Password</label>
         <input type="password" 
                name="password" 
-               placeholder="Enter password">
+               placeholder="Enter password"
+               required>
 
         <!-- Button -->
-        <button class="logbutton">
+        <button type="submit" class="logbutton">
             Login
         </button>
+
+        <p class="mt-4 mb-0 text-secondary" style="font-size: 15px;">
+            Don't have an account? 
+            <a href="{% url 'register' %}" class="text-warning fw-bold text-decoration-none ms-1">Register here</a>
+        </p>
 
     </form>
 

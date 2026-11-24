@@ -25,9 +25,12 @@ def home(request):
         or Product.objects.filter(name__icontains="Grill").first()
     )
 
-    lollipop_id = lollipop.id if lollipop else 1
-    tandoori_id = tandoori.id if tandoori else 1
-    grill_id = grill.id if grill else 1
+    first_product = Product.objects.first()
+    fallback_id = first_product.id if first_product else 1
+
+    lollipop_id = lollipop.id if lollipop else fallback_id
+    tandoori_id = tandoori.id if tandoori else fallback_id
+    grill_id = grill.id if grill else fallback_id
 
     menu_products = Product.objects.all().order_by('id')
 
@@ -45,9 +48,9 @@ def profile_details(request):
     data = Product.objects.all()
 
     if q:
-        data = data.filter(name__icontains=q)
+        data = data.filter(name__icontains=q.strip())
     if category:
-        data = data.filter(category__iexact=category)
+        data = data.filter(category__iexact=category.strip())
 
     return render(request, 'profile.html', {
         'data': data,
@@ -64,14 +67,24 @@ def register(request):
     mgs = ""
     if request.method == "POST":
         form = RegisterForm(request.POST)
-        email = request.POST.get("email")
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
 
-        if Register.objects.filter(email=email).exists():
-            mgs = "email already exist"
+        if not username or not email or not password:
+            mgs = "All fields are required"
+        elif Register.objects.filter(email=email).exists():
+            mgs = "Email already exists"
+        elif Register.objects.filter(username=username).exists():
+            mgs = "Username already exists"
         else:
             if form.is_valid():
-                form.save()
-                return redirect("login")        
+                user = form.save(commit=False)
+                user.username = username
+                user.email = email
+                user.password = password
+                user.save()
+                return redirect("login")
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form, "mgs": mgs})
@@ -82,37 +95,41 @@ def login(request):
     form = LoginForm()
 
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
 
-        try:
-            user = Register.objects.get(username=username, password=password)
+        # Safely query user and handle potential duplicates or non-existent user
+        user = Register.objects.filter(username=username).first()
+        if user and user.password == password:
             request.session["username"] = user.username
+            request.session.modified = True
             response = redirect('home')
-            response.set_cookie("username", user.username)
+            response.set_cookie("username", user.username, max_age=86400 * 30, httponly=True)
             return response
-        except Register.DoesNotExist:
-            mgs = "invalid username or password"
+        else:
+            mgs = "Invalid username or password"
 
     return render(request, 'login.html', {'form': form, 'mgs': mgs})
 
 
 def logout(request):
     request.session.flush()
-    return redirect("login")
+    response = redirect("login")
+    response.delete_cookie("username")
+    return response
 
 
 def add_to_cart(request, id):
     product = get_object_or_404(Product, id=id)
     cart = request.session.get('cart', {})
+    if not isinstance(cart, dict):
+        cart = {}
 
-    if str(id) in cart:
-        cart[str(id)] += 1
-    else:
-        cart[str(id)] = 1
-
+    str_id = str(id)
+    cart[str_id] = cart.get(str_id, 0) + 1
     request.session['cart'] = cart
-    total_count = sum(cart.values()) if isinstance(cart, dict) else 0
+    request.session.modified = True
+    total_count = sum(cart.values())
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.GET.get('ajax') == '1':
         return JsonResponse({
@@ -132,16 +149,19 @@ def add_to_cart(request, id):
 
 def decrease_cart(request, id):
     cart = request.session.get('cart', {})
-    str_id = str(id)
+    if not isinstance(cart, dict):
+        cart = {}
 
+    str_id = str(id)
     if str_id in cart:
         if cart[str_id] > 1:
             cart[str_id] -= 1
         else:
             del cart[str_id]
         request.session['cart'] = cart
+        request.session.modified = True
 
-    total_count = sum(cart.values()) if isinstance(cart, dict) else 0
+    total_count = sum(cart.values())
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.GET.get('ajax') == '1':
         return JsonResponse({
@@ -154,21 +174,29 @@ def decrease_cart(request, id):
 
 def cart_view(request):
     cart = request.session.get('cart', {})
+    if not isinstance(cart, dict):
+        cart = {}
+
     cart_items = []
     total = 0
 
-    for id, quantity in cart.items():
+    for item_id, quantity in list(cart.items()):
         try:
-            product = Product.objects.get(id=id)
-        except Product.DoesNotExist:
+            product = Product.objects.get(id=item_id)
+        except (Product.DoesNotExist, ValueError):
             continue
 
-        subtotal = product.price * quantity
+        try:
+            qty = int(quantity)
+        except (ValueError, TypeError):
+            qty = 1
+
+        subtotal = product.price * qty
         total += subtotal
 
         cart_items.append({
             'product': product,
-            'quantity': quantity,
+            'quantity': qty,
             'subtotal': subtotal
         })
 
@@ -180,9 +208,10 @@ def cart_view(request):
 
 def remove_cart(request, id):
     cart = request.session.get('cart', {})
-
-    if str(id) in cart:
-        del cart[str(id)]
-
-    request.session['cart'] = cart
+    if isinstance(cart, dict):
+        str_id = str(id)
+        if str_id in cart:
+            del cart[str_id]
+            request.session['cart'] = cart
+            request.session.modified = True
     return redirect('cart')

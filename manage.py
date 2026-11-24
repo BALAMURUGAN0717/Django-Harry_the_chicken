@@ -15,6 +15,9 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    # Default to testing 'crispy' when bare 'test' is run
+    if len(sys.argv) == 2 and sys.argv[1] == 'test':
+        sys.argv.append('crispy')
     execute_from_command_line(sys.argv)
 
 if __name__ == '__main__':
