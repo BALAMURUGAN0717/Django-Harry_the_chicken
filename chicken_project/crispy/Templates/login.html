@@ -111,6 +111,10 @@
         <!-- Heading -->
         <h1 class="login-heading">LOGIN</h1>
 
+        {% if mgs %}
+        <p style="color: #ff3333; font-weight: bold; margin-bottom: 15px; text-align: center;">{{ mgs }}</p>
+        {% endif %}
+
         <!-- Username -->
         <label class="uselog">Username</label>
         <input type="text" 

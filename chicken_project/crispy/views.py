@@ -89,7 +89,10 @@ def add_to_cart(request, id):
 
     request.session['cart'] = cart
 
-    return redirect(request.META.get("HTTP_REFERER"))
+    referer = request.META.get("HTTP_REFERER")
+    if referer:
+        return redirect(referer)
+    return redirect('cart')
 
 
 def cart_view(request):
@@ -99,8 +102,10 @@ def cart_view(request):
     total = 0
 
     for id, quantity in cart.items():
-
-        product = Product.objects.get(id=id)
+        try:
+            product = Product.objects.get(id=id)
+        except Product.DoesNotExist:
+            continue
 
         subtotal = product.price * quantity
         total += subtotal

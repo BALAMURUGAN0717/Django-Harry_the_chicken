@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f$u(*&$q(!g_$#(0mb#*_(zo4+^wv$!$1cx02i$)yte96l9)z!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,7 +55,11 @@ ROOT_URLCONF = 'chicken_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'Templates'],
+        'DIRS': [
+            BASE_DIR / 'crispy' / 'Templates',
+            BASE_DIR / 'crispy' / 'templates',
+            BASE_DIR / 'Templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,6 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
